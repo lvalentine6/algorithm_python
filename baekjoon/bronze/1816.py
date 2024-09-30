@@ -14,5 +14,3 @@ for number in input_lst:
 
         if i == limit:
             print('YES')
-
-
