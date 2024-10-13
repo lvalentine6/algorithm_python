@@ -13,7 +13,7 @@ for idx, i in enumerate(lst):
 candidate = []
 init_price = 10000
 
-for i in range(1, n+1):
+for i in range(1, n + 1):
     comb = combinations(lst, i)
 
     for j in comb:

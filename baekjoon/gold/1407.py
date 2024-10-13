@@ -3,6 +3,7 @@ import math
 a, b = map(int, input().split())
 a -= 1
 
+
 def cal(num):
     count = 0
     count += num
@@ -10,5 +11,6 @@ def cal(num):
         count += int((num // math.pow(2, i)) * (math.pow(2, i) - math.pow(2, i - 1)))
 
     return count
+
 
 print(cal(b) - cal(a))

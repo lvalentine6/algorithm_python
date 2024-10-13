@@ -1,5 +1,7 @@
 import sys
+
 sys.setrecursionlimit(1000000)
+
 
 def recursion(hint_idx, num):
     global answer
@@ -9,7 +11,7 @@ def recursion(hint_idx, num):
 
     if hint_idx == n:
         answer += 1
-        recursion(0 ,num+ 1)
+        recursion(0, num + 1)
         return
 
     if '0' in list(str(num)) or len(list(str(num))) != len(set(str(num))):
@@ -32,7 +34,8 @@ def recursion(hint_idx, num):
     if num_strike == strike and num_ball == ball:
         recursion(hint_idx + 1, num)
     else:
-        recursion(0, num+1)
+        recursion(0, num + 1)
+
 
 n = int(input())
 input_lst = [list(map(int, input().split())) for _ in range(n)]

@@ -12,10 +12,11 @@ def recur(idx, benefit):
 
     recur(idx + 1, benefit)
 
+
 n = int(input())
 lst = [list(map(int, input().split())) for _ in range(n)]
 answer = 0
 
-recur(0,0)
+recur(0, 0)
 
 print(answer)

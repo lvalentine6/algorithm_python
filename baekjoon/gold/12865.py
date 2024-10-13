@@ -12,6 +12,7 @@ def recur(idx, w, v):
 
     recur(idx + 1, w, v)
 
+
 n, k = map(int, input().split())
 lst = [list(map(int, input().split())) for _ in range(n)]
 answer = 0
