@@ -1,22 +1,23 @@
-def recur(idx, w, v):
-    global answer
-
+def recur(idx, w):
     if w > k:
-        return
+        return -9999
 
     if idx == n:
-        answer = max(answer, v)
-        return
+        return 0
 
-    recur(idx + 1, w + lst[idx][0], v + lst[idx][1])
+    if dp[idx][w] != -1:
+        return dp[idx][w]
 
-    recur(idx + 1, w, v)
+    dp[idx][w] = max(recur(idx + 1, w + lst[idx][0]) + lst[idx][1], recur(idx + 1, w))
+
+    return dp[idx][w]
 
 
 n, k = map(int, input().split())
 lst = [list(map(int, input().split())) for _ in range(n)]
-answer = 0
 
-recur(0, 0, 0)
+dp = [[-1 for _ in range(100001)] for _ in range(n)]
 
-print(answer)
+recur(0, 0)
+
+print(dp[0][0])
