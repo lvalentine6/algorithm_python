@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+mkdir -p /home/myhome/tmp || { echo "임시 디렉토리 생성 실패"; exit 1; }
+
+sed '
+    s/10.1.2.3/10.1.2.4/g
+    s/test_user/svc_user/g
+    s/mypassword/mypassword1@#/g
+' /home/myhome/sample_before.txt > /home/myhome/tmp/sample_after.txt || { echo "파일 변경 실패"; exit 1; }
+
+scp -i ~/.ssh/key.pem /home/myhome/tmp/sample_after.txt user@10.1.2.4:/home/yourhome/sample_after.txt || { echo "파일 전송 실패"; exit 1; }
+
+rm /home/myhome/tmp/sample_after.txt || { echo "임시 파일 삭제 실패"; exit 1; }
+
+echo "모든 작업 완료."
+
+
+
