@@ -23,6 +23,7 @@ def bfs(row, col):
 
     return max_depth
 
+
 import sys
 
 input = sys.stdin.readline

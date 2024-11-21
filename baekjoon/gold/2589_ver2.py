@@ -18,8 +18,8 @@ visited = [False] * n
 
 for _ in range(m):
     a, b = map(int, input().split())
-    network[a-1].append(b-1)
-    network[b-1].append(a-1)
+    network[a - 1].append(b - 1)
+    network[b - 1].append(a - 1)
 
 dfs(0)
 
