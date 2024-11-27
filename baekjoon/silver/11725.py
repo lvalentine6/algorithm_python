@@ -1,53 +1,26 @@
-def preorder(node):
-    preorder_result.append(node)
-    left_node, right_node = tree[node]
-    if left_node != '.':
-        preorder(left_node)
-
-    if right_node != '.':
-        preorder(right_node)
-
-
-def inorder(node):
-    left_node, right_node = tree[node]
-    if left_node != '.':
-        inorder(left_node)
-
-    inorder_result.append(node)
-
-    if right_node != '.':
-        inorder(right_node)
-
-
-def postorder(node):
-    left_node, right_node = tree[node]
-    if left_node != '.':
-        postorder(left_node)
-
-    if right_node != '.':
-        postorder(right_node)
-
-    postorder_result.append(node)
-
-
 import sys
+from collections import deque
 
 input = sys.stdin.readline
 
 n = int(input())
-tree = {}
-preorder_result = []
-inorder_result = []
-postorder_result = []
+tree = [[] for _ in range(n + 1)]
+parent = [0] * (n + 1)
 
-for i in range(n):
-    parent, left, right = input().split()
-    tree[parent] = (left, right)
+for i in range(n - 1):
+    left, right = map(int, input().split())
+    tree[left].append(right)
+    tree[right].append(left)
 
-preorder('A')
-inorder('A')
-postorder('A')
+queue = deque([1])
+parent[1] = -1
 
-print(''.join(preorder_result))
-print(''.join(inorder_result))
-print(''.join(postorder_result))
+while queue:
+    current = queue.popleft()
+    for nxt in tree[current]:
+        if parent[nxt] == 0:
+            parent[nxt] = current
+            queue.append(nxt)
+
+for i in range(2, len(parent)):
+    print(parent[i])
