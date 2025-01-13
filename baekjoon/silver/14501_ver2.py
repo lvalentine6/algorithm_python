@@ -13,10 +13,11 @@ def recur(idx):
     print(dp)
     return dp[idx]
 
+
 n = int(input())
 lst = [list(map(int, input().split())) for _ in range(n)]
 
-dp = [-1 for _ in range(n+1)]
+dp = [-1 for _ in range(n + 1)]
 
 recur(0)
 

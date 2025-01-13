@@ -2,7 +2,7 @@ import sys
 
 input = sys.stdin.readline
 
-n,x = map(int, input().split())
+n, x = map(int, input().split())
 lst = sorted(list(map(int, input().split())))
 answer = 0
 remain = 0
