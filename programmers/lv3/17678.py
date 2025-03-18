@@ -21,27 +21,17 @@ def solution(n, t, m, timetable):
 
     for i in b_lst:
         cnt = 0
-        rest_lst = []
+        last_person = 0
         while s_lst and s_lst[0] <= i and cnt < m:
-            rest_lst.append(heapq.heappop(s_lst))
+            last_person = heapq.heappop(s_lst)
             cnt += 1
 
         if i == last_bus:
             if cnt < m:
                 result = last_bus
-            elif cnt == m:
-                result = rest_lst[-1] - 1
+            else:
+                result = last_person - 1
 
-    hour = str(result // 60)
-    minute = str(result % 60)
-    delimiter = ":"
-
-    if len(hour) == 1:
-        hour = '0' + hour
-
-    if len(minute) == 1:
-        minute = '0' + minute
-
-    answer = hour + delimiter + minute
+    answer = f"{result // 60:02d}:{result % 60:02d}"
 
     return answer
