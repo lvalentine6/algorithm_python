@@ -1,66 +1,31 @@
-def check_t(lst, x, y, c):
-    if y == 0:
-        if c == 1:
-            lst[x][y][0] = 1
+def is_valid(lst):
+    for x, y, t in lst:
+        if t == 0:
+            if y == 0 or (x, y - 1, 0) in lst or (x - 1, y, 1) in lst or (x, y, 1) in lst:
+                continue
+            return False
         else:
-            lst[x][y][0] = 0
-    else:
-        if x - 1 >= 0 and lst[x - 1][y][1] == 1:
-            if c == 1:
-                lst[x][y][0] = 1
-            else:
-                lst[x][y][0] = 0
-        elif y - 1 >= 0 and lst[x][y - 1][0] == 1:
-            if c == 1:
-                lst[x][y][0] = 1
-            else:
-                lst[x][y][0] = 0
-    return lst
+            if (x, y - 1, 0) in lst or (x + 1, y - 1, 0) in lst or ((x + 1, y, 1) in lst and (x - 1, y, 1) in lst):
+                continue
+            return False
 
-
-def check_f(lst, x, y, c):
-    if x - 1 >= 0:
-        if lst[x - 1][y][1] == 1 and lst[x + 1][y][1] == 1:
-            if c == 1:
-                lst[x][y][1] = 1
-        elif lst[x][y - 1][0] == 1:
-            if c == 1:
-                lst[x][y][1] = 1
-            else:
-                lst[x][y][1] = 0
-        if lst[x + 1][y - 1][0] == 1:
-            if c == 1:
-                lst[x][y][1] = 1
-            else:
-                lst[x][y][1] = 0
-    else:
-        if lst[x][y - 1][0] == 1:
-            if c == 1:
-                lst[x][y][1] = 1
-            else:
-                lst[x][y][1] = 0
-
-    return lst
+    return True
 
 
 def solution(n, build_frame):
-    answer = []
-    lst = [[[-1, -1] for _ in range(n + 1)] for _ in range(n + 1)]
+    answer = [[]]
+    lst = set()
 
     for x, y, t, c in build_frame:
-        if t == 0:
-            lst = check_t(lst, x, y, c)
+        if c == 1:
+            lst.add((x, y, t))
+            if not is_valid(lst):
+                lst.remove((x, y, t))
         else:
-            lst = check_f(lst, x, y, c)
+            lst.remove((x, y, t))
+            if not is_valid(lst):
+                lst.add((x, y, t))
 
-    for i in range(n + 1):
-        for j in range(n + 1):
-            if lst[i][j][0] == 1:
-                answer.append([i, j, 0])
-
-            if lst[i][j][1] == 1:
-                answer.append([i, j, 1])
-
-    answer.sort(key=lambda x: (x[0], x[1], x[2]))
+    answer = sorted(lst, key=lambda x: (x[0], x[1], x[2]))
 
     return answer
