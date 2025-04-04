@@ -1,58 +1,29 @@
-import itertools
-
-
-def check(weak, visited):
-    return all(visited[w] for w in weak)
-
-
-def calculate(n, start, dist, direction, visited):
-    visited = visited[:]
-    visited[start] = True
-
-    if direction == 0:
-        while dist > 0:
-            start += 1
-            dist -= 1
-            if start >= n:
-                start %= n
-            visited[start] = True
-    else:
-        while dist > 0:
-            start -= 1
-            dist -= 1
-            if start < 0:
-                start = n + start
-            visited[start] = True
-
-    return visited
-
-
-def search(n, weak, friends, permutations, visited, f_idx):
-    if check(weak, visited):
-        return True
-
-    if f_idx >= len(friends):
-        return False
-
-    for d in range(2):
-        new_visited = calculate(n, permutations[f_idx], friends[f_idx], d, visited)
-        if search(n, weak, friends, permutations, new_visited, f_idx + 1):
-            return True
+from itertools import permutations
 
 
 def solution(n, weak, dist):
-    answer = 1
-    dist.sort(reverse=True)
+    answer = 0
+    min_friend = len(dist) + 1
 
-    for i in range(1, len(dist) + 1):
-        friends = dist[:i]
-        permutations = itertools.permutations(weak, i)
+    et_weak = weak + [n + w for w in weak]
 
-        for p in permutations:
-            visited = [False for _ in range(n + 1)]
-            if search(n, weak, friends, p, visited, 0):
-                return answer
+    for start in range(len(weak)):
+        for friends in permutations(dist):
+            cnt = 1
+            covered = et_weak[start] + friends[0]
 
-        answer += 1
+            for i in range(start, start + len(weak)):
+                if et_weak[i] > covered:
+                    cnt += 1
+                    if cnt > len(dist):
+                        break
+                    covered = et_weak[i] + friends[cnt - 1]
 
-    return -1
+            min_friend = min(min_friend, cnt)
+
+    if min_friend <= len(dist):
+        answer = min_friend
+    else:
+        answer = -1
+
+    return answer
