@@ -1,5 +1,5 @@
-import heapq
 import sys
+from collections import deque
 
 input = sys.stdin.readline
 t = int(input())
@@ -19,28 +19,21 @@ for _ in range(t):
         graph[a - 1].append(b - 1)
         indegree[b - 1] += 1
 
-    heap = []
+    dp = [0 for _ in range(n)]
 
+    queue = deque()
     for i in range(n):
         if indegree[i] == 0:
-            heapq.heappush(heap, (times[i], i, indegree[i]))
+            queue.append(i)
+            dp[i] = times[i]
 
-    p_order = 0
+    while queue:
+        cur = queue.popleft()
+        for nxt in graph[cur]:
+            indegree[nxt] -= 1
+            dp[nxt] = max(dp[nxt], dp[cur] + times[nxt])
+            if indegree[nxt] == 0:
+                queue.append(nxt)
 
-    while heap:
-        time, node, ind = heapq.heappop(heap)
-
-        if node == w:
-            break
-
-        if p_order == ind:
-            answer += time
-            p_order += 1
-
-            for nxt in graph[node]:
-                indegree[nxt] -= 1
-                if indegree[nxt] == 0:
-                    heapq.heappush(heap, (times[nxt], nxt, indegree[nxt]))
-
-    print(answer)
+    print(dp[w])
 
