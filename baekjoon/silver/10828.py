@@ -2,9 +2,10 @@ class RoyStack():
     def __init__(self, capacity=1000):
         self.space = [None] * capacity
         self.index = 0
+        self.capacity = capacity
 
     def push(self, value):
-        self.space.append(value)
+        self.space[self.index] = value
         self.index += 1
         return
 
@@ -15,17 +16,17 @@ class RoyStack():
         return self.space[self.index]
 
     def size(self):
-        return len(self.space)
+        return self.index
 
     def empty(self):
-        if not self.space:
+        if self.index == 0:
             return 1
         return 0
 
     def top(self):
-        if not self.space:
+        if self.index == 0:
             return -1
-        return self.space[-1]
+        return self.space[self.index - 1]
 
 
 import sys
@@ -33,7 +34,7 @@ import sys
 FIRST_VALUE = 0
 input = sys.stdin.readline
 n = int(input())
-roy_stack = RoyStack()
+roy_stack = RoyStack(capacity=n)
 
 commands = {
     'push': lambda v: roy_stack.push(v[FIRST_VALUE]),
