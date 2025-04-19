@@ -1,10 +1,12 @@
 import math
 import sys
+
 input = sys.stdin.readline
 
 n, r, c = map(int, input().split())
 N = int(math.pow(2, n))
 cnt = 0
+
 
 def recursion(size, row, col):
     global cnt
@@ -27,5 +29,6 @@ def recursion(size, row, col):
     else:
         cnt += 3 * half * half
         recursion(half, row + half, col + half)
+
 
 recursion(N, 0, 0)

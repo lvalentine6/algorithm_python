@@ -36,4 +36,3 @@ for _ in range(t):
                 queue.append(nxt)
 
     print(dp[w])
-

@@ -1,6 +1,7 @@
 import math
 import sys
 
+
 def _find(route, i, j):
     if route[i][j] == 0:
         return [0]
@@ -13,6 +14,7 @@ def _find(route, i, j):
     find_graph.insert(0, len(find_graph))
 
     return find_graph
+
 
 input = sys.stdin.readline
 
