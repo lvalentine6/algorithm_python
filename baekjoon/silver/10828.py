@@ -1,17 +1,18 @@
 class RoyStack():
-    def __init__(self):
-        self.space = []
+    def __init__(self, capacity=1000):
+        self.space = [None] * capacity
+        self.index = 0
 
     def push(self, value):
         self.space.append(value)
+        self.index += 1
         return
 
     def pop(self):
-        if not self.space:
+        if self.index == 0:
             return -1
-        pop_value = self.space[-1]
-        self.space = self.space[:-1]
-        return pop_value
+        self.index -= 1
+        return self.space[self.index]
 
     def size(self):
         return len(self.space)
