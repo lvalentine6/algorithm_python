@@ -4,7 +4,16 @@ class RoyStack():
         self.index = 0
         self.capacity = capacity
 
+    def resize(self):
+        new_space = [None] * self.index * 2
+        for v in range(self.index):
+            new_space[v] = self.space[v]
+        self.space = new_space
+        return
+
     def push(self, value):
+        if self.index >= self.capacity:
+            self.resize()
         self.space[self.index] = value
         self.index += 1
         return
