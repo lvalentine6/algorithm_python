@@ -1,35 +1,25 @@
-import math
-import sys
-
-
-def recursion(num, sub, depth):
-    global answer
-    global lst
-
-    if depth > answer:
-        return
-
-    if num == 1:
-        if depth < answer:
-            answer = depth
-            lst = sub + [1]
-
-    if num % 3 == 0:
-        recursion(num // 3, sub + [num], depth + 1)
-    if num % 2 == 0:
-        recursion(num // 2, sub + [num], depth + 1)
-
-    recursion(num - 1, sub + [num], depth + 1)
-
-
-global answer
-global lst
-answer = math.inf
-lst = []
-input = sys.stdin.readline
 n = int(input())
+dp = [0] * (n + 1)
+prev = [0] * (n + 1)
 
-recursion(n, [], 0)
+for i in range(2, n + 1):
+    dp[i] = dp[i - 1] + 1
+    prev[i] = i - 1
 
-print(answer)
-print(*lst)
+    if i % 2 == 0 and dp[i // 2] + 1 < dp[i]:
+        dp[i] = dp[i // 2] + 1
+        prev[i] = i // 2
+
+    if i % 3 == 0 and dp[i // 3] + 1 < dp[i]:
+        dp[i] = dp[i // 3] + 1
+        prev[i] = i // 3
+
+print(dp[n])
+
+path = []
+x = n
+while x:
+    path.append(x)
+    x = prev[x]
+
+print(*path)
