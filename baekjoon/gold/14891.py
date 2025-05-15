@@ -19,6 +19,7 @@ def check(lst):
 
     return tmp
 
+
 def move(lst, idx, direction):
     if direction == 1:
         tmp = lst[idx].pop()
@@ -26,15 +27,6 @@ def move(lst, idx, direction):
     else:
         tmp = lst[idx].popleft()
         lst[idx].append(tmp)
-
-def recursion(lst, idx, direction, visited, flag):
-    move(lst, idx, direction)
-    visited[idx] = True
-
-    if 0 <= idx - 1 and flag[idx - 1]:
-        recursion(lst, idx - 1, -1 if direction == 1 else 1, visited, flag)
-    if idx + 1 < 4 and flag[idx + 1]:
-        recursion(lst, idx + 1, -1 if direction == 1 else 1, visited, flag)
 
 
 input = sys.stdin.readline
@@ -47,26 +39,24 @@ for i in range(k):
     flag = check(lst)
     idx, direction = command[i]
     idx -= 1
-    visited = [False for _ in range(4)]
+    rotation = [0, 0, 0, 0]
+    rotation[idx] = direction
 
-    move(lst, idx, direction)
+    for i in range(idx - 1, -1, -1):
+        if flag[i]:
+            rotation[i] = -rotation[i + 1]
+        else:
+            break
 
-    if idx == 0 and flag[0]:
-        visited[idx] = True
-        recursion(lst, idx + 1, -1 if direction == 1 else 1, visited, flag)
-    elif (idx == 1 and flag[0] or flag[1]) or (idx == 2 and flag[1] or flag[2]):
-        visited[idx] = True
-        recursion(lst, idx + 1, -1 if direction == 1 else 1, visited, flag)
-        recursion(lst, idx - 1, -1 if direction == 1 else 1, visited, flag)
-    elif idx == 3 and flag[2]:
-        visited[idx] = True
-        recursion(lst, idx - 1, -1 if direction == 1 else 1, visited, flag)
+    for i in range(idx + 1, 4):
+        if flag[i - 1]:
+            rotation[i] = -rotation[i - 1]
+        else:
+            break
 
-    print(flag)
-    # print(lst)
-
-print(command)
-print(lst)
+    for idx, d in enumerate(rotation):
+        if d != 0:
+            move(lst, idx, d)
 
 if list(lst[0])[0] == 1:
     answer += 1
